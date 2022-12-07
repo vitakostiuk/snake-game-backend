@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+const { string } = require("joi");
 
 const addSchema = Joi.object({
   score: Joi.number().min(1).required(),
@@ -10,6 +11,10 @@ const scoreSchema = new Schema(
     score: {
       type: Number,
       required: true,
+    },
+    name: {
+      type: String,
+      required: false,
     },
     owner: {
       type: Schema.Types.ObjectId,
