@@ -2,7 +2,9 @@
 const { Score } = require("../../models/score");
 
 const getAll = async (req, res, next) => {
-  const result = await Score.find();
+  const { id: owner } = req.user;
+
+  const result = await Score.find({ owner }).populate("owner", "name");
 
   res.json(result);
 };

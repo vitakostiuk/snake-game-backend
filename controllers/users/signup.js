@@ -11,30 +11,42 @@ const signup = async (req, res, next) => {
     throw createError(400, error.message);
   }
 
+  let response;
+
   const { name } = req.body;
 
   const user = await User.findOne({ name });
   console.log("user", user);
   if (user) {
-    throw createError(409, `${name} in use`);
+    response = {
+      token: user.token,
+      user: {
+        name: user.name,
+      },
+    };
+    // throw createError(409, `${name} in use`);
   }
 
-  const newUser = await User.create(req.body);
+  if (!user) {
+    const newUser = await User.create(req.body);
 
-  const payload = {
-    id: newUser._id,
-  };
+    const payload = {
+      id: newUser._id,
+    };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
 
-  const result = await User.findByIdAndUpdate(newUser._id, { token });
+    const result = await User.findByIdAndUpdate(newUser._id, { token });
 
-  res.status(200).json({
-    token,
-    user: {
-      name: result.name,
-    },
-  });
+    response = {
+      token,
+      user: {
+        name: result.name,
+      },
+    };
+  }
+
+  res.status(200).json(response);
 };
 
 module.exports = signup;

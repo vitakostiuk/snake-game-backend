@@ -3,6 +3,8 @@ const { Score, joiShemas } = require("../../models/score");
 const createError = require("../../helpers/createError");
 
 const add = async (req, res, next) => {
+  const { id: owner } = req.user;
+
   const { error } = joiShemas.add.validate(req.body);
   if (error) {
     throw createError(400, "Missing required value field");
@@ -16,7 +18,7 @@ const add = async (req, res, next) => {
   // console.log(req.user);
 
   // const result = await Score.create({ ...req.body, owner });
-  const result = await Score.create(req.body);
+  const result = await Score.create({ ...req.body, owner });
   // і ми цей об'єкт повертаємо на фронтенд
   res.status(201).json(result);
 };

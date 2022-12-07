@@ -11,13 +11,10 @@ const scoreSchema = new Schema(
       type: Number,
       required: true,
     },
-    // // в owner будемо записувати id людини, яка додала
-    // // Schema.Types.ObjectId - особливий тип даних для id
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "user",
-    //   // тут вказуємо, з якої колекції цей id
-    // },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 );
