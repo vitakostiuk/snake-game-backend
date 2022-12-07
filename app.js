@@ -6,6 +6,7 @@ require("dotenv").config();
 
 // import routes
 const scoresRouter = require("./routes/api/scores");
+const usersRouter = require("./routes/api/users");
 
 // 1-- create web-server
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // 3-- Create routes group
 app.use("/api/scores", scoresRouter);
+app.use("/api/users", usersRouter);
 
 // 4-- Create errors handles
 app.use((req, res) => {
